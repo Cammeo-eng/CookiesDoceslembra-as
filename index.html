@@ -193,8 +193,8 @@ section.shelf { padding-block: 34px 8px; scroll-margin-top: 80px; }
 .lb .x { position: absolute; top: 10px; right: 10px; z-index: 2; border: none; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,250,243,.92); color: var(--choc); font-size: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
 .ig { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
 .chip.ig { background: var(--choc); color: #fff; }
-.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 70; transform: translate(-50%, 140%); background: var(--choc); color: #fff; padding: 12px 20px; border-radius: 999px; font-weight: 600; font-size: 14px; box-shadow: 0 8px 24px rgba(46,20,14,.3); transition: transform .4s cubic-bezier(.2,1.2,.4,1); white-space: nowrap; max-width: calc(100% - 32px); }
-.toast.show { transform: translate(-50%, 0); }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 70; transform: translate(-50%, 140%); background: var(--choc); color: #fff; padding: 12px 20px; border-radius: 999px; font-weight: 600; font-size: 14px; box-shadow: 0 8px 24px rgba(46,20,14,.3); transition: transform .4s cubic-bezier(.2,1.2,.4,1), opacity .3s, visibility 0s .4s; white-space: nowrap; max-width: calc(100% - 32px); opacity: 0; visibility: hidden; pointer-events: none; }
+.toast.show { transform: translate(-50%, 0); opacity: 1; visibility: visible; transition: transform .4s cubic-bezier(.2,1.2,.4,1), opacity .3s; }
 
 /* about strip */
 .about { margin-block: 44px 24px; display: grid; grid-template-columns: auto 1fr; gap: 22px; align-items: center; background: var(--cream); border-radius: 18px; padding: 24px; }
@@ -417,9 +417,8 @@ const ALL = {}; MENU.forEach(s => s.items.forEach(i => { i.plain = i.plain || i.
 const brl = v => "R$ " + v.toFixed(2).replace(".", ",");
 
 let cart = {};
-try { cart = JSON.parse(localStorage.getItem("dl-cart") || "{}") || {}; } catch (e) { cart = {}; }
-for (const k in cart) if (!ALL[k]) delete cart[k];
-const save = () => { try { localStorage.setItem("dl-cart", JSON.stringify(cart)); } catch (e) {} };
+try { localStorage.removeItem("dl-cart"); } catch (e) {}
+const save = () => {};
 
 /* intro cookies */
 const introPick = ["redvelvet", "tradicional", "triplo", "kitkat", "nutella"];
