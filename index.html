@@ -316,7 +316,6 @@ fieldset.field { border: none; padding: 0; margin: 14px 0 0; }
       <p class="lede">Feitos à mão, um a um, com massa amanteigada e muito chocolate. Escolha seus sabores e o pedido chega pronto no nosso WhatsApp.</p>
       <div class="badge-row">
         <span class="chip">Pedido pelo WhatsApp</span>
-        <span class="chip">Entrega ou retirada</span>
         <a class="chip ig" href="https://www.instagram.com/cookies.doceslembracas/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@cookies.doceslembracas</a>
       </div>
     </div>
@@ -365,17 +364,6 @@ fieldset.field { border: none; padding: 0; margin: 14px 0 0; }
       <div class="field">
         <label for="cName">Seu nome</label>
         <input id="cName" type="text" placeholder="Como podemos te chamar?" autocomplete="name">
-      </div>
-      <fieldset class="field">
-        <legend>Como prefere receber</legend>
-        <div class="seg">
-          <input type="radio" name="mode" id="mDel" value="Entrega" checked><label for="mDel">Entrega</label>
-          <input type="radio" name="mode" id="mPick" value="Retirada"><label for="mPick">Retirada</label>
-        </div>
-      </fieldset>
-      <div class="field" id="addrField">
-        <label for="cAddr">Endereço</label>
-        <input id="cAddr" type="text" placeholder="Rua, número e bairro" autocomplete="street-address">
       </div>
       <div class="field">
         <label for="cNote">Observação</label>
@@ -523,15 +511,11 @@ function renderLines() {
 }
 function updateWa() {
   const { t } = totals();
-  const mode = document.querySelector("input[name=mode]:checked").value;
-  document.getElementById("addrField").hidden = mode !== "Entrega";
   const name = document.getElementById("cName").value.trim();
-  const addr = document.getElementById("cAddr").value.trim();
   const note = document.getElementById("cNote").value.trim();
   let msg = "Olá, Doces Lembranças! Quero fazer um pedido:\n\n";
   for (const k in cart) msg += `• ${cart[k]}x ${ALL[k].plain} (${brl(cart[k] * ALL[k].price)})\n`;
-  msg += `\nTotal: ${brl(t)}\n${mode}`;
-  if (mode === "Entrega" && addr) msg += `: ${addr}`;
+  msg += `\nTotal: ${brl(t)}`;
   if (name) msg += `\nNome: ${name}`;
   if (note) msg += `\nObs.: ${note}`;
   document.getElementById("waLink").href = `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
